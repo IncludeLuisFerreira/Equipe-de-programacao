@@ -7,6 +7,7 @@ Um sistema IoT para monitoramento da qualidade do ar em áreas urbanas, usando s
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## 📋 Índice
+- [Tecnologias](#tecnologias)
 - [Instalação](#instalação)
 - [Como Usar](#como-usar)
 - [Documentação da API](#documentação-da-api)
