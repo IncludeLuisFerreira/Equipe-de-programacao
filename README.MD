@@ -7,17 +7,28 @@ Um sistema IoT para monitoramento da qualidade do ar em áreas urbanas, usando s
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
 ## 📋 Índice
-- [Tecnologias](#tecnologias)
+- [Tecnologias e Objetivos](#-tecnologias)
 - [Instalação](#instalação)
 - [Como Usar](#como-usar)
 - [Documentação da API](#documentação-da-api)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
+- [Desenvolvedores](#contribuição)
+- [Licence](#-licence)
+
+
+## 💻 Tecnologias
+Neste projeto foi usada a linguagem Python 3.11.2 para a integração com uma ESP8266 e um sensor de úmidade. Como objetivo queremos 
+da versatilidade desta linguagem para obter os dados, salva-los em um banco de dados, abstrair deles novas métricas e mostrar para 
+a comunidade externa por meio de uma plataforma web
 
 ## 🚀 Instalação
 
 
 ....
+
+
+## Desenvolvedores
+
+
 
 ## 📄 Licence
 
