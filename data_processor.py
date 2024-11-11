@@ -3,6 +3,7 @@
 
 import socket
 
+file_name = 'dados.csv'
 HOST = '0.0.0.0'
 PORT = 50000
 
@@ -28,16 +29,11 @@ while True:
         message, buffer = buffer.split("\n", 1)
         
         try:
-            temperatura, umidade = message.split(",")
             
-            with open("temperatura.cqv", "a") as temp_file:
-                temp_file.write(temperatura + "\n")
+            with open(file_name, 'a') as arquivo:
+                arquivo.write("\n" + message)
                 
-            with open("umidade.cqv", "a") as umid_file:
-                umid_file.write(umidade + "\n")
-                
-            print(f"Temperatura: {temperatura}, Umidade: {umidade} - Dados salvos")
-        
+
         except ValueError:
             print("Formato de mensagem inválido...")
             continue
