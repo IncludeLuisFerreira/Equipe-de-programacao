@@ -3,7 +3,7 @@
 
 import socket
 
-file_name = 'dados.csv'
+file_name = 'bd.csv'
 HOST = '0.0.0.0'
 PORT = 50000
 
@@ -31,7 +31,7 @@ while True:
         try:
             
             with open(file_name, 'a') as arquivo:
-                arquivo.write("\n" + message)
+                arquivo.write(message + "\n")
                 
 
         except ValueError:
