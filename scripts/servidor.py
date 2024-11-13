@@ -3,7 +3,7 @@
 
 import socket
 
-file_name = 'bd.csv'
+file_name = '../folders/bd.csv'
 HOST = '0.0.0.0'
 PORT = 50000
 

@@ -7,28 +7,24 @@ def calcular_estatisticas_ultimas_linhas(file_name_entrada, file_name_saida, int
     temperaturas = deque(maxlen=intervalo)
     umidades = deque(maxlen=intervalo)
     
-    # Lê todas as linhas do arquivo de entrada
     with open(file_name_entrada, 'r') as file:
-        reader = list(csv.DictReader(file))  # Carrega o conteúdo do arquivo em uma lista
+        reader = list(csv.DictReader(file))  
         
-        # Se o arquivo está vazio, não pode calcular as estatísticas
         if not reader:
             print("O arquivo de entrada está vazio!")
             return
 
-        # Adiciona as leituras das últimas 10 linhas às deques
         for row in reader[-intervalo:]:
             temperatura = int(row['Temperatura']) / 100
             umidade = int(row['Umidade']) / 100
             temperaturas.append(temperatura)
             umidades.append(umidade)
     
-    # Calcula as estatísticas se houver pelo menos 10 leituras
     if len(temperaturas) == intervalo and len(umidades) == intervalo:
         try:
             moda_temperatura = int(statistics.mode(temperaturas)) * 100
         except statistics.StatisticsError:
-            moda_temperatura = "Sem moda"  # Quando não houver moda única
+            moda_temperatura = "Sem moda"  
             
         moda_umidade = int(statistics.mode(umidades)) * 100 if len(set(umidades)) > 1 else "Sem moda"
         
@@ -38,7 +34,6 @@ def calcular_estatisticas_ultimas_linhas(file_name_entrada, file_name_saida, int
         desvio_temperatura = int(statistics.stdev(temperaturas)) * 100 if len(temperaturas) > 1 else 0
         desvio_umidade = int(statistics.stdev(umidades)) * 100 if len(umidades) > 1 else 0
         
-        # Prepara os dados para escrever no arquivo de saída
         estatisticas = {
             'Moda_Temperatura': str(moda_temperatura),
             'Moda_Umidade': str(moda_umidade),
@@ -48,18 +43,15 @@ def calcular_estatisticas_ultimas_linhas(file_name_entrada, file_name_saida, int
             'Desvio_Padrao_Umidade': f"{desvio_umidade}"
         }
 
-        # Verifica se o arquivo já existe e se já possui o cabeçalho
         file_exists = os.path.exists(file_name_saida)
 
-        # Escreve os dados estatísticos no arquivo de saída, após a última linha
-        with open(file_name_saida, 'a', newline='') as file:  # Abre no modo append ('a')
+        with open(file_name_saida, 'a', newline='') as file:  
             writer = csv.DictWriter(file, fieldnames=estatisticas.keys())
             
-            # Se o arquivo não existir ou não tiver cabeçalho, escreve o cabeçalho
             if not file_exists or file.tell() == 0:
                 writer.writeheader()
             
-            writer.writerow(estatisticas)  # Adiciona as estatísticas ao final
+            writer.writerow(estatisticas)  
 
         print(f"Estatísticas das últimas {intervalo} leituras calculadas e adicionadas no arquivo {file_name_saida}:")
         print(f"Moda Temperatura: {moda_temperatura}")
@@ -71,8 +63,7 @@ def calcular_estatisticas_ultimas_linhas(file_name_entrada, file_name_saida, int
     else:
         print(f"O arquivo possui menos de {intervalo} leituras, estatísticas não calculadas.")
 
-# Nome dos arquivos CSV
-file_name_entrada = 'bd.csv'   # Arquivo original com os dados
-file_name_saida = 'abstracao.csv'  # Arquivo apenas com as estatísticas
+file_name_entrada = 'folders/bd.csv'   
+file_name_saida = 'folders/abstracao.csv'  
 
 calcular_estatisticas_ultimas_linhas(file_name_entrada, file_name_saida)

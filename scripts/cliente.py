@@ -3,8 +3,8 @@ import time
 import random
 import requests
 
-HOST = '127.0.0.1'  # IP do servidor, no caso o computador que irá receber 
-PORT = 50000        
+HOST = 'localhost'  # IP do servidor, no caso o computador que irá receber 
+PORT = 50000  
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 client_socket.connect((HOST, PORT))
