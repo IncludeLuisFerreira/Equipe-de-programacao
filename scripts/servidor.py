@@ -1,42 +1,25 @@
-# Primeira versão da conexão de um cliente
-# Ainda não tem banco de dados então salvei em arquivos separados
-
-import socket
+from paho.mqtt import client as paho
+import sys
 
 file_name = '../folders/bd.csv'
-HOST = '0.0.0.0'
-PORT = 50000
 
-server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server.bind((HOST, PORT))
-server.listen(1)
+def on_message(client, userdata, message):
+   print(f"{message.topic}: {message.payload}")
 
-print(f"Servidor escutando em {HOST}:{PORT}...")
+server = paho.Client()
+server.on_message = on_message
 
-cliente_socket, client_address = server.accept()
-print(f"Conexão estabelecida com {client_address}")
+if server.connect("localhost", 1883, 60) != 0:
+    print("Erro ao conectar ao servidor MQTT")
+    sys.exit(1)
 
-buffer = ""
-while True:
-    data = cliente_socket.recv(1024).decode()
-    if not data:
-        print("Conexão perdida!")
-        break
-    
-    buffer += data
-    
-    while "\n" in buffer:
-        message, buffer = buffer.split("\n", 1)
-        
-        try:
-            
-            with open(file_name, 'a') as arquivo:
-                arquivo.write(message + "\n")
-                
+server.subscribe("Sensor")
+print(f"Servidor escutando no tópico 'Sensor' em localhost: 1883...")
 
-        except ValueError:
-            print("Formato de mensagem inválido...")
-            continue
-
-cliente_socket.close()
-server.close()
+try:
+    server.loop_forever()
+except KeyboardInterrupt:
+    print("Desconectando do servidor...")
+finally:
+    server.disconnect()
+    print("Servidor desconectado.")

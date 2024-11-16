@@ -1,13 +1,18 @@
-import socket
+from paho.mqtt import client as paho
 import time
-import random
 import requests
+import sys
 
-HOST = 'localhost'  # IP do servidor, no caso o computador que irá receber 
-PORT = 50000  
+BROKER = 'localhost'  # IP do servidor que irá receber as mensagens
+PORT = 1883
+TOPIC = 'Sensor'
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect((HOST, PORT))
+# Cria o cliente MQTT e se conecta ao broker
+client = paho.Client() 
+if client.connect(BROKER, PORT, 60) != 0:
+    print("Couldn't connect to mqtt broker")
+    sys.exit(1)
+    
 
 api_key = '9d3e90a83727f54955434d982b108fb0'
 
@@ -20,7 +25,7 @@ api_urls = {
 def process_api(url):
     try:
         response = requests.get(url)
-        response.raise_for_status()  # Coleta erro
+        response.raise_for_status()  # Gera exceção para erros HTTP
         data = response.json()  # Converte a resposta em JSON
         
         # Obtém a temperatura e umidade do JSON
@@ -36,25 +41,29 @@ def process_api(url):
 
 try:
     while True:
-        
         for name, url in api_urls.items():
             temperatura, umidade = process_api(url)
             
             if temperatura is not None and umidade is not None:
-                # Multiplica por 100 e converte para inteiros
+                # Converte os valores de temperatura e umidade em inteiros para publicação
                 temperatura = int(temperatura * 100)
                 umidade = int(umidade * 100)
         
-        mensagem = f"{temperatura},{umidade}\n"
+                # Formata a mensagem para ser publicada
+                mensagem = f"{temperatura},{umidade}\n"
+                
+                # Publica a mensagem no tópico especificado
+                client.publish(TOPIC, mensagem)
+                
+                print(f"Dados enviados: {mensagem.strip()}")
         
-        client_socket.sendall(mensagem.encode())
-        
-        print(f"Dados enviados: {mensagem.strip()}")
-        
+        # Aguarda 2 segundos antes da próxima leitura e publicação
         time.sleep(2)
 
 except KeyboardInterrupt:
-    print("Cliente finalizado.")
+    print("Cliente finalizado pelo usuário.")
 
 finally:
-    client_socket.close()
+    # Desconecta do broker MQTT de forma limpa
+    client.disconnect()
+    print("Desconectado do broker.")
