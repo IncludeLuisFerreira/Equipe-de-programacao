@@ -1,13 +1,23 @@
 import requests
 import time
+from pymongo import MongoClient
 
 # Chave pessoal API da OpenWeatherMap
 api_key = '9d3e90a83727f54955434d982b108fb0'
+MONGO_URI = 'mongodb+srv://prgluis:123@luis.do00k.mongodb.net/?retryWrites=true&w=majority&appName=Luis'
 
 # URL da API para Poços de Caldas
 api_urls = {
     'pocos': f'http://api.openweathermap.org/data/2.5/weather?q=Poços+de+Caldas,BR&appid={api_key}&units=metric',
 }
+
+try:
+    # Conectando ao MongoDB
+    cliente = MongoClient(MONGO_URI)
+    db = cliente['Extensao']  # Nome correto do banco de dados
+    collection = db['sensores']  # Nome correto da coleção
+except Exception as e:
+    pass
 
 # Função para processar a resposta da API e obter temperatura e umidade
 def process_api(url):
@@ -28,17 +38,12 @@ def process_api(url):
         return None, None
 
 # Função para escrever dados no arquivo CSV
-def write_to_file(file_name, dados):
-    with open(file_name, 'a') as file:
-        file.write(dados + '\n')
 
 def main():
     # Nome do arquivo de saída
-    file_name = 'bd.csv'
+    file_name = 'folders/bd.csv'
     
     # Cria o arquivo e adiciona o cabeçalho na primeira vez
-    with open(file_name, 'w') as file:
-        file.write("Temperatura,Umidade\n")
     
     while True:
         # Processa cada URL da API
@@ -51,11 +56,18 @@ def main():
                 umidade = int(umidade * 100)
                 
                 # Cria uma linha de dados para o CSV
-                dados = f"{temperatura},{umidade}"
+                dados = {
+                    "tipo": "temperatura",
+                    "dado": temperatura,
+                    "tipo": "umidade",
+                    "dado":umidade
+                }
+
+                insert_Dado = collection.insert_one(dados)
+                print(f"Dado inserido: {insert_Dado.inserted_id}")
                 
                 # Adiciona a linha ao arquivo
-                write_to_file(file_name, dados)
-        
+               
         print("Dados salvos no arquivo")
 
         # Aguarda 10 minutos (600 segundos) antes de coletar os dados novamente
