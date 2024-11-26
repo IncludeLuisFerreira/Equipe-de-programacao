@@ -4,7 +4,7 @@ from pymongo import MongoClient
 
 # Chave pessoal API da OpenWeatherMap
 api_key = '9d3e90a83727f54955434d982b108fb0'
-MONGO_URI = 'mongodb+srv://<user:<@luis.do00k.mongodb.net/?retryWrites=true&w=majority&appName=Luis'
+MONGO_URI = 'mongodb+srv://prgluis:123@luis.do00k.mongodb.net/?retryWrites=true&w=majority&appName=Luis'
 
 # URL da API para Poços de Caldas
 api_urls = {
