@@ -1,35 +1,54 @@
-# 🌍 Projeto de Extensão de Monitoramento Ambiental
+# Projeto de Extensão de Monitoramento Ambiental
 
-Um sistema IoT para monitoramento da qualidade do ar em áreas urbanas, usando sensores integrados e análise em tempo real para promover a conscientização ambiental.
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
+![Licença](https://img.shields.io/badge/licença-MIT-blue)
 
-## 🏷️ Badges
-![Em Desenvolvimento](https://img.shields.io/badge/status-Em%20Desenvolvimento-brightgreen)
-![License](https://img.shields.io/badge/license-MIT-blue)
+## Índice
 
-## 📋 Índice
-- [Tecnologias e Objetivos](#-tecnologias)
+- [Descrição do Projeto](#descrição-do-projeto)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
 - [Instalação](#instalação)
-- [Como Usar](#como-usar)
-- [Documentação da API](#documentação-da-api)
-- [Desenvolvedores](#contribuição)
-- [Licence](#-licence)
+- [Licença](#licença)
+
+## Descrição do Projeto
+
+O **Projeto de Extensão de Monitoramento Ambiental** é um sistema IoT desenvolvido para monitorar a qualidade do ar em áreas urbanas. Utilizando sensores integrados e análise em tempo real, o projeto visa promover a conscientização ambiental e fornecer dados precisos para a comunidade.
+
+## Tecnologias Utilizadas
+
+- **Linguagem de Programação:** Python 3.11.2
+- **Banco de Dados:** MongoDB
+
+## Instalação
+
+Para configurar o ambiente de desenvolvimento, siga os passos abaixo:
+
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/IncludeLuisFerreira/Equipe-de-programacao.git
 
 
-## 💻 Tecnologias
-Neste projeto foi usada a linguagem Python 3.11.2 para a integração com uma ESP8266 e um sensor de úmidade. Como objetivo queremos 
-da versatilidade desta linguagem para obter os dados, salva-los em um banco de dados, abstrair deles novas métricas e mostrar para 
-a comunidade externa por meio de uma plataforma web
+2. **Instale as dependências:**
+   ```bash
+   pip install -r requirements.txt
 
-## 🚀 Instalação
+3. **Renomeie o arquivo passwords.exemple.py para passwords.py:**
+   ```bash
+   mv passwords.exemple.py passwords.py
 
+4. **Preencha as suas credenciais no arquivo passwords.py:**
+   ```python
+   keys =  {
+    "MONGO_URI" : "exemploUri\mongoUser",
+    "MQTT_SERVER" : "coloque o server",
+    "MQTT_USER" : "insira o user",
+    "MQTT_PASSWORD" : "digite a senha"
+   }
 
-....
+4. **Execute o programa no terminal**
+   ```bash
+   python3 python_bd.py
 
+## Licença
 
-## Desenvolvedores
-
-
-
-## 📄 Licence
-
-Este  projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE)
+Distribuído sob a licença MIT. Veja **LICENSE** para detalhes.
